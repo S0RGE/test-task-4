@@ -1,0 +1,10 @@
+const getUserProfile = async () => {
+  try {
+    const response = await fetch("api.givemewish.ru/users/i/info/my");
+    const userData = await response.json();
+
+    console.log(userData);
+  } catch (err) {
+    console.error(err);
+  }
+};
