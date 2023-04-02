@@ -1,6 +1,18 @@
 // app global css in SCSS form
+@import url("./fonts.scss");
 
 .container {
   max-width: 374px;
   margin: 0 auto;
+}
+
+a {
+  // color: #2c2c2c;
+  // background-color: #fdffff;
+  color: #fff;
+  text-decoration: none;
+}
+
+.color-secondary {
+  color: #d0d0d0;
 }

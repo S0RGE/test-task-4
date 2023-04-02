@@ -9,7 +9,7 @@
       </div>
       <div class="header-photo fit column no-wrap justify-center items-center">
         <q-avatar rounded size="120px">
-          <img :src="`data:image/png;base64,${user.photo}`" :alt="user.name" />
+          <img :src="userPhoto" :alt="user.name" />
         </q-avatar>
         <div
           class="header-profile column no-wrap justify-center items-center q-mt-sm"
@@ -20,41 +20,54 @@
         </div>
       </div>
     </div>
-    
+    <PriorityList />
+    <UserStatusList />
+    <q-btn-group push class="friend-card__action">
+      <q-btn icon="fa-solid fa-house" />
+      <q-btn icon="fa-solid fa-user-group" />
+      <q-btn icon="fa-solid fa-circle-plus" />
+      <q-btn icon="fa-solid fa-heart" />
+      <q-btn icon="fa-solid fa-user" />
+    </q-btn-group>
   </div>
 </template>
 
-<script>
-import { getUserProfile } from "src/helpers/api";
+<script setup>
+// Components
+import PriorityList from "components/PriorityList";
+import UserStatusList from "src/components/UserStatusList";
 
-export default {
-  name: "FriendCard",
-  data() {
-    return {
-      user: null,
-    };
-  },
-  methods: {
-    getImage() {
-      const image = new Image();
+// Methods
+import { getUserProfile, getUserWishes } from "src/helpers/api";
+import { onMounted, ref, computed } from "vue";
 
-      image.src = user.photo;
-    },
-  },
-  computed: {
-    userBirthday() {
-      const birthDay = new Date(this.user.birthday);
-      const parsedBirthDay = birthDay.toLocaleDateString();
-      return parsedBirthDay;
-    },
-  },
-  async mounted() {
-    const response = await getUserProfile();
-    if (!response.error) {
-      this.user = response.user;
-    }
-  },
-};
+const user = ref(null);
+
+onMounted(() => {
+  getUserProfile()
+    .then((response) => {
+      user.value = response.user;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+
+  getUserWishes()
+    .then((response) => {
+      console.log("wishes: ", response);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+});
+
+const userPhoto = computed(() => `data:image/png;base64,${user.value.photo}`);
+
+const userBirthday = computed(() => {
+  const birthDay = new Date(user.value.birthday);
+  const parsedBirthDay = birthDay.toLocaleDateString();
+  return parsedBirthDay;
+});
 </script>
 
 <style lang="scss" scoped>

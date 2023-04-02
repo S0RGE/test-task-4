@@ -5,9 +5,12 @@
 
   padding: 55px 20px 32px 20px;
 
-  button {
-    width: 40px;
-    height: 40px;
+  .header-actions {
+    button {
+      width: 40px;
+      height: 40px;
+      background: rgba(249, 249, 249, 0.1);
+    }
   }
 
   &__header {
@@ -19,6 +22,19 @@
       img {
         border-radius: 20px;
       }
+    }
+  }
+
+  &__action {
+    height: 70px;
+    background-color: #ffcd1d;
+    font-size: 16px;
+
+    display: flex;
+    justify-content: stretch;
+
+    button {
+      width: 100%;
     }
   }
 }
